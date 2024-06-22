@@ -1,6 +1,6 @@
 const userModel = require("../models/user.model");
 
-const validateAccessToken = async (req, res, next) => {
+const ensureAuthenticated = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -29,4 +29,4 @@ const validateAccessToken = async (req, res, next) => {
   next();
 };
 
-module.exports = { validateAccessToken };
+module.exports = { ensureAuthenticated };

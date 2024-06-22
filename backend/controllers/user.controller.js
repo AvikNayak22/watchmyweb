@@ -21,7 +21,7 @@ const generateToken = (data, exp) => {
   return token;
 };
 
-const decodeToken = (token) => {
+const verifyJWTToken = (token) => {
   let data;
   try {
     data = jwt.verify(token, secretKey);
@@ -32,7 +32,7 @@ const decodeToken = (token) => {
   return data;
 };
 
-const verifyEmail = (email) => {
+const validateEmail = (email) => {
   const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return pattern.test(email);
 };
@@ -48,7 +48,7 @@ const generateNewAccessToken = async (req, res) => {
       return;
     }
 
-    if (!decodeToken(refreshToken)) {
+    if (!verifyJWTToken(refreshToken)) {
       res.status(400).json({
         status: false,
         message: "Refresh token is not valid.",
@@ -109,7 +109,7 @@ const signupUser = async (req, res) => {
       return;
     }
 
-    if (!verifyEmail(email)) {
+    if (!validateEmail(email)) {
       res.status(400).json({
         status: false,
         message: "Email is not valid.",
@@ -187,7 +187,7 @@ const loginUser = async (req, res) => {
       return;
     }
 
-    if (!verifyEmail(email)) {
+    if (!validateEmail(email)) {
       res.status(400).json({
         status: false,
         message: "Email is not valid.",
