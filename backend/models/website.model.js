@@ -8,6 +8,7 @@ const websiteSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Types.ObjectId,
     required: true,
+    ref: "User",
   },
   isActive: {
     type: Boolean,

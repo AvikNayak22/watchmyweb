@@ -87,7 +87,9 @@ const deleteWebsite = async (req, res) => {
 
 const getAllWebsites = async (req, res) => {
   try {
-    const results = await websiteModel.find({ userId: req.user._id });
+    const results = await websiteModel
+      .find({ userId: req.user._id })
+      .populate({ path: "userId", select: ["name", "email"] });
 
     res.status(200).json({
       status: true,
