@@ -43,7 +43,7 @@ const isSiteActive = async (url) => {
   return true;
 };
 
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule("0 */1 * * *", async () => {
   console.log("Cron ran");
   const allWebsites = await websiteModel
     .find({})
@@ -73,7 +73,7 @@ cron.schedule("*/1 * * * *", async () => {
         from: process.env.EMAIL,
         to: website.userId.email,
         subject: `Your website is down.`,
-        text: `Your website with url ${url} went down at ${new Date().toLocaleDateString(
+        text: `Your website with url ${url} went down on ${new Date().toLocaleDateString(
           "en-in"
         )}. Please check whats wrong.`,
       });
