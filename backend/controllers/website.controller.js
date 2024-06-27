@@ -2,7 +2,8 @@ const axios = require("axios");
 const websiteModel = require("../models/website.model");
 
 const validateUrl = (url) => {
-  const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+  const pattern =
+    /^(ftp|http|https):\/\/[^ "]+$|^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})(\/[^ "]*|)$/;
   return pattern.test(url);
 };
 
@@ -89,7 +90,8 @@ const getAllWebsites = async (req, res) => {
   try {
     const results = await websiteModel
       .find({ userId: req.user._id })
-      .populate({ path: "userId", select: ["name", "email"] });
+      .populate({ path: "userId", select: ["name", "email"] })
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       status: true,

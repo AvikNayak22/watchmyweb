@@ -92,3 +92,9 @@
   color: #1737ea;
   cursor: pointer;
 }
+
+@media (max-width: 680px) {
+  .heading {
+    font-size: 18px;
+  }
+}
