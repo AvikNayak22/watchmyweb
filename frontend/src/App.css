@@ -46,14 +46,14 @@
   background-color: white;
 }
 
-.cards {
+.websites-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
   overflow-x: auto;
 }
 
-.card {
+.website-item {
   display: flex;
   gap: 20px;
   justify-content: space-between;
@@ -62,25 +62,25 @@
   border-bottom: 1px solid #00000058;
 }
 
-.card:last-child {
+.website-item:last-child {
   border-bottom: none;
 }
 
-.card .url {
+.website-item .url {
   flex: 1;
   font-size: 16px;
   line-height: 18px;
   font-weight: 500;
 }
 
-.card .right,
-.card .left {
+.website-item .right,
+.website-item .left {
   display: flex;
   gap: 20px;
   align-items: center;
 }
 
-.card .link {
+.website-item .link {
   cursor: pointer;
   color: rgb(49, 88, 114);
   font-weight: 600;
@@ -88,11 +88,11 @@
   font-size: 14px;
 }
 
-.card .green {
+.website-item .green {
   color: #48d10e !important;
 }
 
-.card .red {
+.website-item .red {
   color: #f14c1f !important;
 }
 
@@ -112,7 +112,7 @@
 }
 
 @media (max-width: 680px) {
-  .card {
+  .website-item {
     width: 400px;
   }
 }

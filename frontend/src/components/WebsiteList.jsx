@@ -9,10 +9,10 @@ const WebsiteList = ({
   }
 
   return (
-    <div className="cards">
+    <div className="websites-list">
       {websites.length ? (
         websites.map((website) => (
-          <div className="card" key={website._id}>
+          <div className="website-item" key={website._id}>
             <div className="left">
               <p className={`link ${website.isActive ? "green" : "red"}`}>
                 {website.isActive ? "ACTIVE" : "DOWN"}
