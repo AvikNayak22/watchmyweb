@@ -3,7 +3,7 @@ const AppHeader = ({
   setInputUrl,
   errorMessage,
   addWebsite,
-  submitButtonDisabled,
+  isSubmitButtonDisabled,
 }) => {
   return (
     <div className="app-header">
@@ -22,8 +22,8 @@ const AppHeader = ({
 
       {errorMessage && <p className="error">{errorMessage}</p>}
 
-      <button onClick={addWebsite} disabled={submitButtonDisabled}>
-        {submitButtonDisabled ? "Adding..." : "Add"}
+      <button onClick={addWebsite} disabled={isSubmitButtonDisabled}>
+        {isSubmitButtonDisabled ? "Adding..." : "Add"}
       </button>
     </div>
   );

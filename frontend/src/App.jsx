@@ -5,19 +5,20 @@ import AppHeader from "./components/AppHeader";
 import WebsiteList from "./components/WebsiteList";
 
 function App() {
-  const [pageLoaded, setPageLoaded] = useState(false);
-  const [showAuth, setShowAuth] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [websites, setWebsites] = useState([]);
-  const [loadingWebsites, setLoadingWebsites] = useState(true);
+  const [areWebsitesLoading, setAreWebsitesLoading] = useState(true);
   const [inputUrl, setInputUrl] = useState("");
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [websiteDeletionId, setWebsiteDeletionId] = useState("");
 
   const init = async () => {
     const rawTokens = localStorage.getItem("tokens");
     if (!rawTokens) {
-      setShowAuth(true);
-      setPageLoaded(true);
+      setIsAuthenticated(false);
+      setIsPageLoaded(true);
       return;
     }
 
@@ -37,16 +38,16 @@ function App() {
       }).catch((err) => void err);
 
       if (!res) {
-        setPageLoaded(true);
-        setShowAuth(true);
+        setIsPageLoaded(true);
+        setIsAuthenticated(false);
         localStorage.removeItem("tokens");
         return;
       }
 
       const data = await res.json();
       if (!data || data.status) {
-        setPageLoaded(true);
-        setShowAuth(true);
+        setIsPageLoaded(true);
+        setIsAuthenticated(false);
         localStorage.removeItem("tokens");
         return;
       }
@@ -54,11 +55,11 @@ function App() {
       const newTokens = data.data?.tokens;
       localStorage.setItem("tokens", JSON.stringify(newTokens));
 
-      setPageLoaded(true);
-      setShowAuth(false);
+      setIsPageLoaded(true);
+      setIsAuthenticated(true);
     } else {
-      setPageLoaded(true);
-      setShowAuth(false);
+      setIsPageLoaded(true);
+      setIsAuthenticated(true);
     }
 
     fetchAllWebsites();
@@ -75,7 +76,7 @@ function App() {
       },
     }).catch((err) => void err);
 
-    setLoadingWebsites(false);
+    setAreWebsitesLoading(false);
 
     if (!res) {
       return;
@@ -87,7 +88,7 @@ function App() {
   };
 
   const addWebsite = async () => {
-    if (!inputUrl.trim() || submitButtonDisabled) return;
+    if (!inputUrl.trim() || isSubmitButtonDisabled) return;
 
     setErrorMessage("");
 
@@ -95,7 +96,7 @@ function App() {
     const tokens = JSON.parse(rawTokens);
     const accessToken = tokens.accessToken.token;
 
-    setSubmitButtonDisabled(true);
+    setIsSubmitButtonDisabled(true);
 
     const res = await fetch("http://localhost:5000/website", {
       method: "POST",
@@ -108,7 +109,7 @@ function App() {
       }),
     }).catch((err) => void err);
 
-    setSubmitButtonDisabled(false);
+    setIsSubmitButtonDisabled(false);
 
     if (!res) {
       setErrorMessage("Error creating website");
@@ -126,11 +127,34 @@ function App() {
     fetchAllWebsites();
   };
 
+  const deleteWebsite = async (id) => {
+    if (websiteDeletionId) return;
+
+    const rawTokens = localStorage.getItem("tokens");
+    const tokens = JSON.parse(rawTokens);
+    const accessToken = tokens.accessToken.token;
+
+    setWebsiteDeletionId(id);
+
+    const res = await fetch(`http://localhost:5000/website/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: accessToken,
+      },
+    }).catch((err) => void err);
+
+    setWebsiteDeletionId("");
+
+    if (!res) return;
+
+    fetchAllWebsites();
+  };
+
   useEffect(() => {
     init();
   }, []);
 
-  if (!pageLoaded) {
+  if (!isPageLoaded) {
     return (
       <div className="loading">
         <p>Loading...</p>
@@ -138,7 +162,7 @@ function App() {
     );
   }
 
-  if (showAuth) {
+  if (!isAuthenticated) {
     return <Auth />;
   }
 
@@ -150,11 +174,16 @@ function App() {
           setInputUrl={setInputUrl}
           errorMessage={errorMessage}
           addWebsite={addWebsite}
-          submitButtonDisabled={submitButtonDisabled}
+          isSubmitButtonDisabled={isSubmitButtonDisabled}
         />
         <div className="body">
           <p className="heading">Your Websites</p>
-          <WebsiteList loadingWebsites={loadingWebsites} websites={websites} />
+          <WebsiteList
+            areWebsitesLoading={areWebsitesLoading}
+            websites={websites}
+            deleteWebsite={deleteWebsite}
+            websiteDeletionId={websiteDeletionId}
+          />
         </div>
       </div>
     </div>

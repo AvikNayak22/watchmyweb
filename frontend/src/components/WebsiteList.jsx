@@ -1,5 +1,10 @@
-const WebsiteList = ({ loadingWebsites, websites }) => {
-  if (loadingWebsites) {
+const WebsiteList = ({
+  areWebsitesLoading,
+  websites,
+  deleteWebsite,
+  websiteDeletionId,
+}) => {
+  if (areWebsitesLoading) {
     return <p>Loading...</p>;
   }
 
@@ -16,7 +21,13 @@ const WebsiteList = ({ loadingWebsites, websites }) => {
             </div>
 
             <div className="right">
-              <p className="link red">{"Delete"}</p>
+              <p
+                className="link red"
+                onClick={() => deleteWebsite(website._id)}
+              >
+                {" "}
+                {websiteDeletionId === website._id ? "Deleting..." : "Delete"}
+              </p>
             </div>
           </div>
         ))
