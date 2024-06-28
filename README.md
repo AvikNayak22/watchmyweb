@@ -24,7 +24,7 @@ Website Monitoring App is a tool that periodically checks the status of websites
 - MongoDB
 - npm
 
-### Installation
+### Installation steps
 
 1. Clone the repository:
 
@@ -44,6 +44,7 @@ Website Monitoring App is a tool that periodically checks the status of websites
    ```
 3. Environment Variables:
    - Create a `.env` file in the root of the backend directory and add the following environment variables:
+     
      ```
      MONGO_URI=your_mongodb_uri
      SECRET_KEY=your_jwt_secret_key
