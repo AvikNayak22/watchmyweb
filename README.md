@@ -1,5 +1,5 @@
-# Website Monitoring App
-Website Monitoring App is a tool that periodically checks the status of websites and notifies users via email if their websites go down.
+# watchmyweb
+watchmyweb is a tool that periodically checks the status of websites and notifies users via email if their websites go down.
 
 ## Features
 - **User Authentication:** Signup and login functionality with JWT-based authentication.
@@ -29,8 +29,8 @@ Website Monitoring App is a tool that periodically checks the status of websites
 1. Clone the repository:
 
    ```
-   git clone https://github.com/AvikNayak22/website-monitoring-app.git
-   cd website-monitoring-app
+   git clone https://github.com/AvikNayak22/watchmyweb.git
+   cd watchmyweb
    ```
 2. Install dependencies for both frontend and backend:
 
